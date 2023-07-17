@@ -20,9 +20,9 @@ public class BooksService
         _booksCollection = mongoDatabase.GetCollection<Book>(
             bookStoreDatabaseSettings.Value.BooksCollectionName);
     }
-
-    public async Task<List<Book>> GetAsyncList(string search) =>
-        await _booksCollection.Find(x => x.BookName.Contains(search) || x.Author.Contains(search)).ToListAsync();
+    public async Task<List<Book>> GetAsyncList(string search, int page, int pageSize) =>
+        await _booksCollection.Find(x => x.BookName.Contains(search) || x.Author.Contains(search)).Skip((page - 1) * pageSize)
+    .Limit(pageSize).ToListAsync();
 
     public async Task<Book?> GetAsync(string id) =>
         await _booksCollection.Find(x => x.Id == id).FirstOrDefaultAsync();

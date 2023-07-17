@@ -14,9 +14,9 @@ public class BooksController : ControllerBase
         _booksService = booksService;
 
     [HttpGet]
-    public async Task<List<Book>> GetList(string search = "", string sortBy = "", string order = "")
+    public async Task<List<Book>> GetList(string search = "", string sortBy = "", string order = "", int page = 1, int pageSize = 5)
     {
-        var books = await _booksService.GetAsyncList(search);
+        var books = await _booksService.GetAsyncList(search, page, pageSize);
         List<Book> SortedList = books;
         if (sortBy == "name")
         {
@@ -41,6 +41,45 @@ public class BooksController : ControllerBase
             else if (order == "decending")
             {
                 SortedList = books.OrderByDescending(o => o.Author).ToList();
+            }
+        }
+
+        if (sortBy == "category")
+        {
+            if (order == "ascending")
+            {
+                SortedList = books.OrderBy(o => o.Category).ToList();
+
+            }
+            else if (order == "decending")
+            {
+                SortedList = books.OrderByDescending(o => o.Category).ToList();
+            }
+        }
+
+        if (sortBy == "status")
+        {
+            if (order == "ascending")
+            {
+                SortedList = books.OrderBy(o => o.Status).ToList();
+
+            }
+            else if (order == "decending")
+            {
+                SortedList = books.OrderByDescending(o => o.Status).ToList();
+            }
+        }
+
+        if (sortBy == "completed_on")
+        {
+            if (order == "ascending")
+            {
+                SortedList = books.OrderBy(o => o.CompletedOn).ToList();
+
+            }
+            else if (order == "decending")
+            {
+                SortedList = books.OrderByDescending(o => o.CompletedOn).ToList();
             }
         }
 
