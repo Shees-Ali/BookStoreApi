@@ -3,7 +3,7 @@ using BookStoreApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStoreApi.Controllers;
-
+// Controller for handling all routes related to /books 
 [ApiController]
 [Route("api/books")]
 public class BooksController : ControllerBase
@@ -13,6 +13,7 @@ public class BooksController : ControllerBase
     public BooksController(BooksService booksService) =>
         _booksService = booksService;
 
+    // Gets List of Books based on different filters
     [HttpGet]
     public async Task<List<Book>> GetList(string search = "", string sortBy = "", string order = "", int page = 1, int pageSize = 5)
     {
@@ -86,6 +87,7 @@ public class BooksController : ControllerBase
         return SortedList;
     }
 
+    // Gets a Single Book
     [HttpGet("{id:length(24)}")]
     public async Task<ActionResult<Book>> Get(string id)
     {
@@ -99,6 +101,7 @@ public class BooksController : ControllerBase
         return book;
     }
 
+    // Adds a new Book
     [HttpPost]
     public async Task<IActionResult> Post(Book newBook)
     {
@@ -107,6 +110,7 @@ public class BooksController : ControllerBase
         return CreatedAtAction(nameof(Get), new { id = newBook.Id }, newBook);
     }
 
+    // Updates a existing Book by using ID
     [HttpPut("{id:length(24)}")]
     public async Task<IActionResult> Update(string id, Book updatedBook)
     {
@@ -124,6 +128,7 @@ public class BooksController : ControllerBase
         return NoContent();
     }
 
+    // Deletes a existing Book by using ID
     [HttpDelete("{id:length(24)}")]
     public async Task<IActionResult> Delete(string id)
     {
